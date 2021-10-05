@@ -9,14 +9,15 @@ namespace ImpossibleGame
 {
     class Object
     {
-        public int x, y, size, speed;
+        public int x, y, width, height, speed;
         public SolidBrush brushColour;
 
-        public Object(int _x, int _y, int _size, int _speed, SolidBrush _brushColor)
+        public Object(int _x, int _y, int _width, int _height, int _speed, SolidBrush _brushColor)
         {
             x = _x;
             y = _y;
-            size = _size;
+            width = _width;
+            height = _height;
             speed = _speed;
             brushColour = _brushColor;
         }
@@ -38,6 +39,21 @@ namespace ImpossibleGame
             else if (direction == "down")
             {
                 y += speed;
+            }
+        }
+
+        public bool Collision (Object n)
+        {
+            Rectangle playerRec = new Rectangle(x, y, width, height);
+            Rectangle enemyRec = new Rectangle(n.x, n.y, n.width, n.height);
+
+            if (playerRec.IntersectsWith(enemyRec))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
     }
