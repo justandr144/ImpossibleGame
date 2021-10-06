@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace ImpossibleGame
 {
-    class Object
+    class Object        //Basic name to fit all objects used in game
     {
         public int x, y, width, height, speed;
         public SolidBrush brushColour;
@@ -22,7 +22,7 @@ namespace ImpossibleGame
             brushColour = _brushColor;
         }
 
-        public void Move(string direction)
+        public void Move(string direction)      //Movement of player
         {
             if (direction == "left")
             {
@@ -42,7 +42,7 @@ namespace ImpossibleGame
             }
         }
 
-        public bool Collision (Object n)
+        public bool Collision (Object n)        //Collision of player and enemies
         {
             Rectangle playerRec = new Rectangle(x, y, width, height);
             Rectangle enemyRec = new Rectangle(n.x, n.y, n.width, n.height);

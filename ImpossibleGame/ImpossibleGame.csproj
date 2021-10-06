@@ -52,6 +52,12 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="GameoverScreen.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GameoverScreen.Designer.cs">
+      <DependentUpon>GameoverScreen.cs</DependentUpon>
+    </Compile>
     <Compile Include="GameScreen.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -67,8 +73,17 @@
     <Compile Include="Object.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VictoryScreen.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="VictoryScreen.Designer.cs">
+      <DependentUpon>VictoryScreen.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GameoverScreen.resx">
+      <DependentUpon>GameoverScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GameScreen.resx">
       <DependentUpon>GameScreen.cs</DependentUpon>
@@ -86,6 +101,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="VictoryScreen.resx">
+      <DependentUpon>VictoryScreen.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -104,6 +122,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\victory.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\redSquare.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\redSquareIcon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

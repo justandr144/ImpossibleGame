@@ -14,6 +14,7 @@ namespace ImpossibleGame
 {
     public partial class GameScreen : UserControl
     {
+        #region variables
         bool upArrowDown, downArrowDown, leftArrowDown, rightArrowDown;
 
         Object player;
@@ -33,11 +34,15 @@ namespace ImpossibleGame
 
         SoundPlayer death = new SoundPlayer(Properties.Resources.deathNoise);
         SoundPlayer victory = new SoundPlayer(Properties.Resources.victory);
+        #endregion
 
         public GameScreen()
         {
             InitializeComponent();
             OnStart();
+
+            Form1.timeCount = 0;        //Seperated for easier use of the timer system
+            gameLoop.Enabled = true;
         }
 
         private void GameScreen_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
@@ -57,7 +62,7 @@ namespace ImpossibleGame
                     rightArrowDown = true;
                     break;
             }
-        }
+        } //Key presses
 
         private void GameScreen_KeyUp(object sender, KeyEventArgs e)
         {
@@ -76,11 +81,13 @@ namespace ImpossibleGame
                     rightArrowDown = false;
                     break;
             }
-        }
+        } //Key presses
 
         private void gameLoop_Tick(object sender, EventArgs e)
         {
-            if (upArrowDown)    //CHECK GAUNTLET FOR BETTER MOVEMENT
+            Form1.timeCount++;
+
+            if (upArrowDown) //Movement of player
             {
                 player.Move("up");
             }
@@ -97,26 +104,29 @@ namespace ImpossibleGame
                 player.Move("right");
             }
 
-            Rectangle playerBoxTop = new Rectangle(player.x, player.y, player.width, 5);
+            Rectangle playerBoxTop = new Rectangle(player.x, player.y, player.width, 5);    //Hitboxes on each side of player
             Rectangle playerBoxRight = new Rectangle(player.x + player.width - 5, player.y, 5, player.height);
             Rectangle playerBoxLeft = new Rectangle(player.x, player.y, 5, player.height);
             Rectangle playerBoxBottom = new Rectangle(player.x, player.y + player.height - 5, player.width, 5);
 
-            if (playerBoxRight.IntersectsWith(finishBox))
+            if (playerBoxRight.IntersectsWith(finishBox)) //Change to victory screen upon reaching finish
             {
                 victory.Play();
 
+                gameLoop.Enabled = false;
+                
                 Form f = this.FindForm();
                 f.Controls.Remove(this);
 
-                MainScreen ms = new MainScreen();
-                f.Controls.Add(ms);
+                VictoryScreen vs = new VictoryScreen();
+                f.Controls.Add(vs);
+                vs.Focus();
 
-                ms.Location = new Point((f.Width - ms.Width) / 2 - 8, (f.Height - ms.Height) / 2 - 19);
+                vs.Location = new Point((f.Width - vs.Width) / 2 - 8, (f.Height - vs.Height) / 2 - 19);
                 finishBox.Height = 2;
             }
 
-            foreach (Rectangle b in borders)
+            foreach (Rectangle b in borders) //Preventing player from leaving area
             {
                 if (b.IntersectsWith(playerBoxTop))
                 {
@@ -136,14 +146,26 @@ namespace ImpossibleGame
                 }
             }
 
-            foreach (Object n in enemies)
+            foreach (Object n in enemies)   //Movement of enemies and collisions with enemies and player
             {
                 n.y += n.speed;
 
                 if (player.Collision(n))
                 {
                     death.Play();
+
                     gameLoop.Enabled = false;
+
+                    Form f = this.FindForm();
+                    f.Controls.Remove(this);
+
+                    GameoverScreen gos = new GameoverScreen();
+                    f.Controls.Add(gos);
+                    gos.Focus();
+
+                    gos.Location = new Point((f.Width - gos.Width) / 2 - 8, (f.Height - gos.Height) / 2 - 19);
+
+                    OnStart(); //moves the hitboxes and prevents it from attempting this if statement twice
                 }
 
                 if (n.y > 345 || n.y < 79)
@@ -155,7 +177,7 @@ namespace ImpossibleGame
             Refresh();
         }
 
-        private void GameScreen_Paint(object sender, PaintEventArgs e)
+        private void GameScreen_Paint(object sender, PaintEventArgs e)  //painting all objects on screen
         {
             for (int i = 0; i < walls.Count(); i++)
             {
@@ -175,7 +197,7 @@ namespace ImpossibleGame
 
         private void OnStart() //Only exists to make the initializing look neater
         {
-            player = new Object(55, 210, 30, 30, 7, playerBrush);
+            player = new Object(55, 210, 30, 30, 7, playerBrush);   //Setting up all the locations of objects
 
             finish = new Object(680, 75, 100, 300, 0, finishBrush);
             start = new Object(20, 75, 100, 300, 0, finishBrush);
@@ -196,12 +218,12 @@ namespace ImpossibleGame
             enemies[6] = new Object(536, 350, 25, 25, -8, enemyBrush);
             enemies[7] = new Object(596, 74, 25, 25, 8, enemyBrush);
 
-            for (int i = 0; i < walls.Count(); i++)
+            for (int i = 0; i < walls.Count(); i++)     //Border hitboxes
             {
                 borders[i] = new Rectangle(walls[i].x + 3, walls[i].y, walls[i].width, walls[i].height);
             }
 
-            finishBox = new Rectangle(finish.x, finish.y, finish.width, finish.height);
+            finishBox = new Rectangle(finish.x, finish.y, finish.width, finish.height);     //Finish line hitbox
         }
     }
 }

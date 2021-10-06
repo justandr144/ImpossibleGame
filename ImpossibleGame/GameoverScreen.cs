@@ -10,17 +10,16 @@ using System.Windows.Forms;
 
 namespace ImpossibleGame
 {
-    public partial class MainScreen : UserControl
+    public partial class GameoverScreen : UserControl
     {
         bool bDown;
 
-        public MainScreen()
+        public GameoverScreen()
         {
             InitializeComponent();
-            this.Focus();
         }
 
-        private void MainScreen_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        private void GameoverScreen_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             switch (e.KeyCode)
             {
@@ -30,7 +29,7 @@ namespace ImpossibleGame
             }
         }
 
-        private void MainScreen_KeyUp(object sender, KeyEventArgs e)
+        private void GameoverScreen_KeyUp(object sender, KeyEventArgs e)
         {
             switch (e.KeyCode)
             {
@@ -40,9 +39,11 @@ namespace ImpossibleGame
             }
         }
 
-        private void gameLoop_Tick(object sender, EventArgs e)
+        private void gameoverLoop_Tick(object sender, EventArgs e)
         {
-            if (bDown)      //Begin Game
+            outputLabel.Text = $"You Died at {Form1.timeCount / 50} seconds";       //Timer Score
+
+            if (bDown)      //Replay
             {
                 Form f = this.FindForm();
                 f.Controls.Remove(this);

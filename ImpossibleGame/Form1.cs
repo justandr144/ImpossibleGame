@@ -1,4 +1,9 @@
-﻿using System;
+﻿/*October 2021
+ * Justin Andrews
+ * A single level of the impossible game
+ */
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,12 +17,15 @@ namespace ImpossibleGame
 {
     public partial class Form1 : Form
     {
+        public static double timeCount = 0;
+
         public Form1()
         {
             InitializeComponent();
+            Cursor.Hide();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void Form1_Load(object sender, EventArgs e) //Add a centered main screen
         {
             MainScreen ms = new MainScreen();
             this.Controls.Add(ms);
